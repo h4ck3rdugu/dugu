@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DUGU OSINT TOOL — NUMBER INFO</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Roboto Mono',monospace;
+  background: radial-gradient(circle at 20% 10%, rgba(0,120,255,0.06) 0%, rgba(0,0,0,0.95) 50%), 
+              linear-gradient(180deg,#001428 0%, #000814 100%);
+  color:#00e6ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  overflow-x:hidden;
+}
+.container{
+  width:100%;
+  max-width:560px;
+  background: linear-gradient(180deg, rgba(0,8,30,0.72), rgba(0,0,0,0.6));
+  border:1px solid rgba(0,230,255,0.14);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.7), 0 0 40px rgba(0,120,255,0.06) inset;
+  border-radius:18px;
+  padding:28px;
+  position:relative;
+  z-index:2;
+  backdrop-filter: blur(8px);
+}
+h1{
+  font-family:'Orbitron',sans-serif;
+  color:#00e6ff;
+  font-size:22px;
+  letter-spacing:1px;
+  margin-bottom:16px;
+  text-shadow:0 0 10px rgba(0,230,255,0.18);
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:center;
+}
+.controls{display:grid;gap:12px}
+input{
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:2px solid rgba(0,230,255,0.14);
+  background:rgba(0,8,20,0.5);
+  color:#bffaff;
+  font-size:15px;
+  outline:none
+}
+input:focus{
+  box-shadow:0 0 12px rgba(0,120,255,0.12);
+  border-color:#0077ff
+}
+.btn-primary{
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(90deg,#00e6ff,#0077ff);
+  color:#001;
+  font-weight:700;
+  cursor:pointer;
+  font-size:16px;
+  box-shadow:0 8px 22px rgba(0,120,255,0.12);
+  transition:transform .18s ease,box-shadow .18s ease
+}
+.btn-primary:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 45px rgba(0,120,255,0.18)
+}
+.action-row{display:flex;gap:10px;margin-top:8px}
+.action-row button{
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid rgba(0,230,255,0.16);
+  background:rgba(0,230,255,0.04);
+  color:#00e6ff;
+  font-weight:700;
+  cursor:pointer;
+  transition:0.3s;
+}
+.action-row button:hover{
+  background:rgba(0,230,255,0.12);
+  box-shadow:0 6px 18px rgba(0,120,255,0.06)
+}
+.action-row button.copied {
+  background:rgba(0,255,100,0.15);
+  color:#00ff99;
+  border-color:rgba(0,255,100,0.4);
+}
+
+/* ✅ OUTPUT BOX */
+#output{
+  margin-top:18px;
+  background:linear-gradient(180deg, rgba(0,8,30,0.5), rgba(0,0,0,0.45));
+  border-radius:12px;
+  padding:16px;
+  min-height:160px;
+  max-height:400px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  border:1px solid rgba(0,120,255,0.08);
+  box-shadow:inset 0 0 18px rgba(0,30,60,0.25);
+  color:#bffaff;
+  font-size:14px;
+  line-height:1.7;
+  scrollbar-width:thin;
+  scrollbar-color:#0077ff rgba(0,0,0,0.3);
+}
+#output::-webkit-scrollbar { width:6px; }
+#output::-webkit-scrollbar-thumb { background:#0077ff; border-radius:10px; }
+#output::-webkit-scrollbar-track { background:rgba(0,0,0,0.3); }
+
+.info-item{
+  padding:10px;
+  border-left:4px solid rgba(0,120,255,0.14);
+  margin-bottom:10px;
+  border-radius:6px;
+  background:rgba(0,120,255,0.02);
+  word-wrap:break-word;
+  white-space:pre-wrap;
+}
+.progress-bar{
+  width:100%;
+  height:12px;
+  background:rgba(255,255,255,0.08);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:12px;
+  border:1px solid rgba(0,120,255,0.1);
+}
+.progress-inner{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#00e6ff,#0077ff);
+  border-radius:12px;
+  transition:width 0.3s ease;
+}
+.footer{
+  margin-top:12px;
+  font-size:12px;
+  color:rgba(0,190,255,0.6);
+  text-align:center;
+  font-family:'Orbitron',sans-serif
+}
+.copy-loading {
+  opacity:0.8;
+  pointer-events:none;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔍 DUGU OSINTZ</h1>
+  <div class="controls">
+    <input id="number" type="text" placeholder="Enter mobile number" />
+    <button class="btn-primary" onclick="getInfo()">🚀 Fetch Info</button>
+    <div class="action-row">
+      <button id="copyBtn" onclick="copyOutput()">📋 Copy Info</button>
+      <button onclick="downloadOutput()">💾 Download TXT</button>
+    </div>
+  </div>
+
+  <div id="output">
+    <div id="infoContent">💬 Waiting for input...</div>
+    <div class="progress-bar" style="display:none;">
+      <div class="progress-inner"></div>
+    </div>
+  </div>
+
+  <div class="footer"> MADE BY DEEPAK </div>
+</div>
+
+<script>
+const numEl = document.getElementById('number');
+const infoContentEl = document.getElementById('infoContent');
+const progressBar = document.querySelector('.progress-bar');
+const progressInner = document.querySelector('.progress-inner');
+const copyBtn = document.getElementById('copyBtn');
+let progressInterval;
+
+function escapeHtml(s){
+  if(!s) return s;
+  return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function renderData(obj){
+  let html = '';
+  
+  if(Array.isArray(obj)){
+    obj.forEach((item, idx) => {
+      html += `<div class="info-item"><b>Record ${idx+1}:</b></div>` + renderData(item);
+    });
+  } else if(typeof obj === 'object' && obj !== null){
+    for(const [k,v] of Object.entries(obj)){
+      // Skip credit/developer fields
+      if(k.toLowerCase().includes('credit') || k.toLowerCase().includes('developer')) {
+        continue;
+      }
+      
+      // Handle nested objects properly
+      if (typeof v === 'object' && v !== null) {
+        html += `<div class="info-item"><b>${k.toUpperCase()}:</b></div>`;
+        html += renderData(v);
+      } else {
+        html += `<div class="info-item"><b>${k.toUpperCase()}:</b> ${v ?? 'N/A'}</div>`;
+      }
+    }
+  } else {
+    html = `<div class="info-item">${escapeHtml(obj)}</div>`;
+  }
+  return html;
+}
+
+function startProgress(){
+  let percent = 0;
+  progressBar.style.display = 'block';
+  progressInner.style.width = '0%';
+  progressInterval = setInterval(()=>{
+    percent += 10;
+    if(percent > 100) percent = 100;
+    progressInner.style.width = percent + '%';
+    if(percent === 100) clearInterval(progressInterval);
+  }, 300);
+}
+
+function stopProgress(){
+  clearInterval(progressInterval);
+  progressBar.style.display = 'none';
+  progressInner.style.width = '0%';
+}
+
+async function getInfo(){
+  const number = numEl.value.trim();
+  if(!number){infoContentEl.innerHTML='Enter valid mobile number.'; return;}
+  infoContentEl.innerHTML = '⏳ Fetching info...';
+  startProgress();
+
+  const apiUrl = `https://flipcartstore.serv00.net/PHONE/12.php?api_key=NezukoApi028&mobile=${number}`;
+  try{
+    const res = await fetch(apiUrl);
+    if(!res.ok) throw new Error('Network response not OK');
+    const text = await res.text();
+    try{
+      const data = JSON.parse(text);
+      infoContentEl.innerHTML = renderData(data);
+    } catch(e){
+      // If JSON parsing fails, display raw text but filter out credits
+      let filteredText = text;
+      // Remove credit lines from raw text response
+      filteredText = filteredText.replace(/CREDIT:\s*@oxmzoo/gi, '');
+      filteredText = filteredText.replace(/DEVELOPER:\s*@oxmzoo/gi, '');
+      filteredText = filteredText.replace(/\n\s*\n/g, '\n').trim();
+      
+      infoContentEl.innerHTML = `<div class="info-item">${escapeHtml(filteredText)}</div>`;
+    }
+  } catch(err){
+    infoContentEl.innerHTML = `<div class="info-item">❌ Error: ${escapeHtml(err.message)}</div>`;
+  } finally{
+    stopProgress();
+  }
+}
+
+async function copyOutput(){
+  const text = infoContentEl.innerText.trim();
+  if(!text){
+    alert('No info to copy!');
+    return;
+  }
+
+  copyBtn.disabled = true;
+  copyBtn.classList.add('copy-loading');
+  const originalText = copyBtn.textContent;
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      fallbackCopyTextToClipboard(text);
+    }
+
+    copyBtn.classList.add('copied');
+    copyBtn.textContent = '✅ Copied!';
+  } catch (err) {
+    try {
+      fallbackCopyTextToClipboard(text);
+      copyBtn.classList.add('copied');
+      copyBtn.textContent = '✅ Copied!';
+    } catch (err2) {
+      console.error('Copy failed:', err, err2);
+      alert('Copy failed — you can select the text manually and copy.');
+      copyBtn.textContent = '📋 Copy Info';
+    }
+  } finally {
+    setTimeout(() => {
+      copyBtn.textContent = originalText;
+      copyBtn.classList.remove('copied', 'copy-loading');
+      copyBtn.disabled = false;
+    }, 1400);
+  }
+}
+
+function fallbackCopyTextToClipboard(text) {
+  return new Promise((resolve, reject) => {
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.readOnly = true;
+      textarea.style.position = 'absolute';
+      textarea.style.left = '-99999px';
+      textarea.style.top = '0';
+      textarea.value = text;
+      document.body.appendChild(textarea);
+
+      const range = document.createRange();
+      range.selectNodeContents(textarea);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+
+      textarea.select();
+      textarea.setSelectionRange(0, textarea.value.length);
+
+      const successful = document.execCommand('copy');
+      sel.removeAllRanges();
+      document.body.removeChild(textarea);
+
+      if (!successful) return reject(new Error('execCommand failed'));
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+function downloadOutput(){
+  const text = infoContentEl.innerText.trim();
+  if(!text){alert('No info to download!'); return;}
+  const blob = new Blob([text], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dugu_info.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+numEl.addEventListener('keydown', e => {if(e.key==='Enter') getInfo();});
+</script>
+</body>
+</html>
