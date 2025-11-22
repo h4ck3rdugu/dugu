@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download DUGU OSINT Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff88, #00cc66);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        .header h1 {
+            color: #00ff88;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+            letter-spacing: 1px;
+        }
+        
+        .header p {
+            color: #a0e0c0;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .description {
+            flex: 1;
+            min-width: 300px;
+            padding: 25px;
+            background: rgba(10, 20, 40, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 200, 255, 0.3);
+        }
+        
+        .description h2 {
+            color: #00ccff;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 200, 255, 0.3);
+            font-size: 1.8rem;
+        }
+        
+        .features {
+            list-style-type: none;
+        }
+        
+        .features li {
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.5;
+        }
+        
+        .features li:before {
+            content: "✓";
+            color: #00ff88;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .download-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background: rgba(0, 30, 60, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            text-align: center;
+        }
+        
+        .download-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #00ff88;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.7);
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #00ff88, #00cc66);
+            color: #000;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin: 20px 0;
+            transition: all 0.4s;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+            letter-spacing: 1px;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.6);
+            background: linear-gradient(45deg, #00ff88, #00ee77);
+        }
+        
+        .file-info {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #a0e0c0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        
+        .instructions {
+            padding: 25px;
+            background: rgba(10, 25, 50, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 200, 0, 0.3);
+            margin-bottom: 25px;
+        }
+        
+        .instructions h2 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 200, 0, 0.3);
+            font-size: 1.8rem;
+        }
+        
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+            background: rgba(20, 30, 50, 0.8);
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #00aaff, #0077cc);
+            color: white;
+            border-radius: 50%;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .step h3 {
+            color: #00ccff;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .step p {
+            color: #c0d0e0;
+            line-height: 1.5;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #80a0b0;
+            font-size: 1rem;
+        }
+        
+        .credit {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 0, 128, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 0, 128, 0.4);
+            color: #ff66aa;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .mediafire-note {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 100, 200, 0.2);
+            border-radius: 5px;
+            border: 1px solid rgba(0, 150, 255, 0.4);
+            color: #66aaff;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .content {
+                flex-direction: column;
+            }
+            
+            .download-btn {
+                padding: 15px 35px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 DUGU OSINT TOOL</h1>
+            <p>Advanced Information Gathering System - Download Page</p>
+        </div>
+        
+        <div class="content">
+            <div class="description">
+                <h2>Tool Features</h2>
+                <ul class="features">
+                    <li>Phone Number Information Lookup with detailed personal data</li>
+                    <li>IP Address Geolocation & Technical Details</li>
+                    <li>Gender Probability Analysis from Name</li>
+                    <li>IFSC Code & Complete Bank Information</li>
+                    <li>BIN (Bank Identification Number) Lookup</li>
+                    <li>Pincode & Post Office Details across India</li>
+                    <li>Aadhar to Family Information Mapping</li>
+                    <li>Copy, Download, and Clear functionality for results</li>
+                    <li>Responsive design works on all devices</li>
+                    <li>No installation required - runs directly in browser</li>
+                </ul>
+            </div>
+            
+            <div class="download-section">
+                <div class="download-icon">⬇️</div>
+                <h2>Download Now</h2>
+                <p>Get the complete DUGU OSINT tool with all features</p>
+                
+                <!-- Updated download button with MediaFire link -->
+                <a href="https://www.mediafire.com/file/dffdu5ms7jzscd8/new-web.html/file" target="_blank" class="download-btn">
+                    DOWNLOAD TOOL
+                </a>
+                
+                <div class="file-info">
+                    File: DUGU-OSINT-Tool.html | Format: HTML | Size: ~10KB
+                </div>
+                
+                <div class="mediafire-note">
+                    🔗 Download via MediaFire - Secure & Fast
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2>How to Use the Tool</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Download</h3>
+                    <p>Click the download button to get the HTML file from MediaFire</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Save</h3>
+                    <p>Save the file to your preferred location on your computer</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Open</h3>
+                    <p>Double-click the HTML file to open it in your web browser</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Use</h3>
+                    <p>Select API type, enter value, and click "Fetch Information"</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="credit">
+            🔰 Powered by: H4CK3R DUGU
+        </div>
+        
+        <div class="footer">
+            © 2025 DUGU CYBER PANEL | All Rights Reserved
+        </div>
+    </div>
+    
+    <script>
+        // Add a simple animation to the download button
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadBtn = document.querySelector('.download-btn');
+            
+            downloadBtn.addEventListener('mouseover', function() {
+                this.style.transform = 'translateY(-5px) scale(1.05)';
+            });
+            
+            downloadBtn.addEventListener('mouseout', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+            
+            // Add click effect
+            downloadBtn.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(0) scale(0.95)';
+            });
+            
+            downloadBtn.addEventListener('mouseup', function() {
+                this.style.transform = 'translateY(-5px) scale(1.05)';
+            });
+        });
+    </script>
+</body>
+</html>
