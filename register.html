@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:Arial;padding:20px;max-width:700px;margin:auto}
+    label{display:block;margin-top:10px}
+    input{padding:8px;width:100%;box-sizing:border-box}
+    button{margin-top:12px;padding:10px 16px}
+  </style>
+</head>
+<body>
+
+<h2>Register</h2>
+
+<form id="regForm">
+  <label>Name</label>
+  <input type="text" id="name" required>
+
+  <label>Email</label>
+  <input type="email" id="email" required>
+
+  <label>Phone</label>
+  <input type="text" id="phone">
+
+  <button type="submit">Register</button>
+</form>
+
+<p id="msg"></p>
+
+
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { 
+      getFirestore, collection, addDoc, serverTimestamp 
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDn7VHidHkbmtErHjfs7bztrTfiDxkFWW4",
+    authDomain: "amilai-school-tour.firebaseapp.com",
+    databaseURL: "https://amilai-school-tour-default-rtdb.firebaseio.com",
+    projectId: "amilai-school-tour",
+    storageBucket: "amilai-school-tour.firebasestorage.app",
+    messagingSenderId: "154777951934",
+    appId: "1:154777951934:web:5292d3c90f1d3d821088ef",
+    measurementId: "G-QZNEPKXVRW"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const form = document.getElementById("regForm");
+  const msg = document.getElementById("msg");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+
+    try {
+      await addDoc(collection(db, "users"), {
+        name,
+        email,
+        phone,
+        createdAt: serverTimestamp()
+      });
+
+      msg.innerText = "Registered Successfully!";
+      form.reset();
+
+    } catch (err) {
+      msg.innerText = "Error: " + err.message;
+    }
+  });
+
+</script>
+
+</body>
+</html>

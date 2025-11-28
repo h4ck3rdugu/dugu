@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:Arial;padding:20px;max-width:1000px;margin:auto}
+    table{width:100%;border-collapse:collapse;margin-top:20px}
+    th,td{padding:8px;border:1px solid #ddd}
+    th{background:#f4f4f4}
+    button{padding:6px 10px}
+  </style>
+</head>
+<body>
+
+<h2>Admin Panel — Registered Users</h2>
+<div id="content">Loading...</div>
+
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { 
+      getFirestore, collection, onSnapshot, deleteDoc, doc 
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDn7VHidHkbmtErHjfs7bztrTfiDxkFWW4",
+    authDomain: "amilai-school-tour.firebaseapp.com",
+    databaseURL: "https://amilai-school-tour-default-rtdb.firebaseio.com",
+    projectId: "amilai-school-tour",
+    storageBucket: "amilai-school-tour.firebasestorage.app",
+    messagingSenderId: "154777951934",
+    appId: "1:154777951934:web:5292d3c90f1d3d821088ef",
+    measurementId: "G-QZNEPKXVRW"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const content = document.getElementById("content");
+
+  onSnapshot(collection(db, "users"), (snapshot) => {
+    if (snapshot.empty) {
+      content.innerHTML = "<p>No users registered.</p>";
+      return;
+    }
+
+    let html = `<table>
+      <tr>
+        <th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Delete</th>
+      </tr>`;
+
+    let i = 0;
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      i++;
+      html += `
+        <tr>
+          <td>${i}</td>
+          <td>${data.name}</td>
+          <td>${data.email}</td>
+          <td>${data.phone}</td>
+          <td><button onclick="deleteUser('${docSnap.id}')">Delete</button></td>
+        </tr>
+      `;
+    });
+
+    html += `</table>`;
+    content.innerHTML = html;
+  });
+
+  // delete function (global)
+  window.deleteUser = async (id) => {
+    if (confirm("Delete this user?")) {
+      await deleteDoc(doc(db, "users", id));
+    }
+  };
+
+</script>
+
+</body>
+</html>
