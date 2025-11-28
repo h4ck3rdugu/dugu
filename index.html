@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Downloads</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .download-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+            text-decoration: none;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.6);
+        }
+        
+        .download-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .download-btn i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .btn-1 {
+            background: linear-gradient(to right, #FF416C, #FF4B2B);
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+        }
+        
+        .btn-1:hover {
+            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.6);
+        }
+        
+        .btn-2 {
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+        
+        .btn-2:hover {
+            box-shadow: 0 8px 20px rgba(17, 153, 142, 0.6);
+        }
+        
+        .file-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .download-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Download Files</h1>
+        <p>Click on the buttons below to download the files</p>
+        
+        <div class="download-buttons">
+            <a href="https://www.mediafire.com/file/7mz50ajon18k9nv/index.html/file" class="download-btn btn-1" target="_blank">
+                <i class="fas fa-download"></i> Download 1 - index.html
+            </a>
+            
+            <a href="https://www.mediafire.com/file/p6s6oq3bz6bklh7/admin.html/file" class="download-btn btn-2" target="_blank">
+                <i class="fas fa-download"></i> Download 2 - admin.html
+            </a>
+        </div>
+        
+        <div class="file-info">
+            <p><i class="fas fa-info-circle"></i> These links will open MediaFire download pages. Click the download button on MediaFire to get your files.</p>
+        </div>
+    </div>
+</body>
+</html>
